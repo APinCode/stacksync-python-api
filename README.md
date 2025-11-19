@@ -8,19 +8,19 @@ Users POST a script containing a `main()` function, and the API returns:
 
 ---
 
-## Locally (Docker)
+## Local Usage (Docker)
 
-Build:
+### Build
 ```bash
 docker build -t python-sandbox-api .
 ```
 
-Run
+### Run
 ```bash
 docker run --rm -p 8080:8080 python-sandbox-api
 ```
 
-## Health check
+### Health check
 
 ```bash
 curl http://localhost:8080/status
@@ -46,14 +46,14 @@ curl -X POST "http://localhost:8080/execute" \
 }
 ```
 
-## Cloud Run
+## Deployment on Google Cloud Run
 
-Build:
+### Build
 ```bash
 gcloud builds submit --tag gcr.io/sandbox-stacksync/python-sandbox-api . 
 ```
 
-Deploy:
+### Deploy
 ```bash
 gcloud run deploy python-sandbox-api \
   --image gcr.io/sandbox-stacksync/python-sandbox-api \
@@ -63,7 +63,7 @@ gcloud run deploy python-sandbox-api \
   --port 8080   
 ```
 
-### Example Cloud
+### Example (Cloud Run)
 ```bash
 curl -X POST "https://python-sandbox-api-255832082464.europe-west1.run.app/execute" \
   -H "Content-Type: application/json" \
@@ -81,4 +81,4 @@ curl -X POST "https://python-sandbox-api-255832082464.europe-west1.run.app/execu
 
 ## Time Spent
 
-Approximatively 3 hours
+Approximately 3 hours
