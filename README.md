@@ -10,12 +10,17 @@ Users POST a script containing a `main()` function, and the API returns:
 
 ## Run Locally (Docker)
 
+Build:
 ```bash
 docker build -t python-sandbox-api .
+```
+
+Run
+```bash
 docker run --rm -p 8080:8080 python-sandbox-api
 ```
 
-## Health check:
+## Health check
 
 ```bash
 curl http://localhost:8080/status
