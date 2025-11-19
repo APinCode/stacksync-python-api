@@ -8,7 +8,7 @@ Users POST a script containing a `main()` function, and the API returns:
 
 ---
 
-## Run Locally (Docker)
+## Locally (Docker)
 
 Build:
 ```bash
@@ -46,10 +46,15 @@ curl -X POST "http://localhost:8080/execute" \
 }
 ```
 
-## Deployment (Cloud run)
+## Cloud Run
 
+Build:
 ```bash
 gcloud builds submit --tag gcr.io/sandbox-stacksync/python-sandbox-api . 
+```
+
+Deploy:
+```bash
 gcloud run deploy python-sandbox-api \
   --image gcr.io/sandbox-stacksync/python-sandbox-api \
   --platform managed \
