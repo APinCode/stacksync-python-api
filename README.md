@@ -74,10 +74,15 @@ curl -X POST "https://python-sandbox-api-255832082464.europe-west1.run.app/execu
 
 ## Notes
 
-- User code is executed inside nsjail with a CPU time limit and restricted filesystem.
-- Due to Docker environment constraints, some advanced namespace isolation is limited.
-- For stronger isolation, run the container with ```--read-only``` or ```--network=none```.
-- On Cloud Run the kernel restricts some nsjail features. If nsjail fails with a specific PR_SET_SECUREBITS error, the service falls back to running the wrapper directly inside the container sandbox so the API still works.
+- Scripts run inside nsjail using a dedicated wrapper (executor.py).
+- The jail enforces:
+  - Isolated working directory (/sandbox)
+  - 5-second CPU time limit
+  - Clean environment
+- To support nsjail on Google Cloud Run we use:
+  - Non-root execution (USER appuser)
+  - No new namespaces (Due Cloud Run blocking them)
+  - rlimits disabled via disable_rl: true (Cloud Run restricts RLIMIT_RTPRIO, so nsjail needs to inherit the parent's limits)
 
 ## Time Spent
 
