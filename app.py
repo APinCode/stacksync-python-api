@@ -3,7 +3,6 @@ import os
 import json
 import subprocess
 import uuid
-import sys
 
 app = Flask(__name__)
 
@@ -36,26 +35,6 @@ def run_in_nsjail(script_path: str):
         text=True,
     )
     stdout, stderr = proc.communicate()
-
-    # If nsjail fails due to PR_SET_SECUREBITS / kernel restrictions (Cloud Run),
-    # fall back to running the executor directly.
-    if proc.returncode == 255 and "PR_SET_SECUREBITS" in stderr:
-        print("nsjail unsupported in this environment, falling back to direct execution", file=sys.stderr)
-
-        fallback_cmd = [
-            PYTHON_BIN,
-            WRAPPER_PATH,
-            script_path,
-        ]
-        fallback_proc = subprocess.Popen(
-            fallback_cmd,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True,
-        )
-        fb_stdout, fb_stderr = fallback_proc.communicate()
-        return fb_stdout, fb_stderr, fallback_proc.returncode
-
     return stdout, stderr, proc.returncode
 
 @app.route("/execute", methods=["POST"])
