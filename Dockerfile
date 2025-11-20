@@ -55,8 +55,8 @@ COPY app.py executor.py /app/
 COPY nsjail.cfg /etc/nsjail.cfg
 
 # Create a non-root user and give permissions
-# RUN useradd -m appuser && chown -R appuser /app /sandbox
-# USER appuser
+RUN useradd -m appuser && chown -R appuser /app /sandbox
+USER appuser
 
 ENV PYTHONUNBUFFERED=1
 
